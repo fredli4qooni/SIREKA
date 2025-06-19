@@ -61,13 +61,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ]);
     })->name('p5.input');
 
-    Route::get('/settings-page', function () {
-        return Inertia::render('Settings/Index');
-    })->name('settings.page');
+    Route::get('/pengaturan', function () { 
+        })->name('settings.page');
 
     Route::prefix('api')->group(function () {
-        Route::get('/pengaturan', function () { 
-        })->name('settings.page');
 
         // === API ROUTES DIDAFTARKAN SECARA EKSPLISIT DI SINI ===
         Route::get('/api/settings', [SettingController::class, 'index'])->name('api.settings.get');
