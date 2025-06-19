@@ -66,8 +66,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('settings.page');
 
     Route::prefix('api')->group(function () {
-        Route::get('/settings', [SettingController::class, 'index']);
-        Route::post('/settings', [SettingController::class, 'update']);
+        Route::get('/pengaturan', function () { 
+        })->name('settings.page');
+
+        // === API ROUTES DIDAFTARKAN SECARA EKSPLISIT DI SINI ===
+        Route::get('/api/settings', [SettingController::class, 'index'])->name('api.settings.get');
+        Route::post('/api/settings', [SettingController::class, 'update'])->name('api.settings.update');
 
         Route::post('learning-goals', [LearningGoalController::class, 'store'])->name('api.learning-goals.store');
         Route::put('learning-goals/{learningGoal}', [LearningGoalController::class, 'update'])->name('api.learning-goals.update');

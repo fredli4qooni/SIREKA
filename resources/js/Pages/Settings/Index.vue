@@ -43,7 +43,7 @@ const successMessage = ref('');
 
 // Ambil data awal saat halaman dimuat
 onMounted(() => {
-    axios.get('/api/settings').then(res => {
+    axios.get(route('api.settings.get')).then(res => {
         const { school, user } = res.data.data;
         // Map data sekolah ke form
         Object.keys(school).forEach(key => {
@@ -61,7 +61,7 @@ onMounted(() => {
 const updateSettings = () => {
     isLoading.value = true;
     successMessage.value = '';
-    axios.post('/api/settings', form)
+    axios.post(route('api.settings.update'), form)
         .then(res => {
             successMessage.value = res.data.message;
             // Kosongkan field password setelah berhasil
