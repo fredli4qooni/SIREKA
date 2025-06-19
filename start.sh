@@ -1,9 +1,5 @@
 #!/bin/sh
 
-# Menjalankan migrasi database
-# Opsi --no-interaction agar tidak ada pertanyaan konfirmasi
+# Hanya jalankan migrasi, lalu biarkan skrip ini selesai.
+echo "Running database migrations..."
 php artisan migrate --force --no-interaction
-
-# Menjalankan web server yang disediakan oleh Nixpacks
-# 'exec' akan menggantikan proses skrip dengan proses server
-exec /usr/bin/supervisord -c /etc/supervisor/supervisord.conf
