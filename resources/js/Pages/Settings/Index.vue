@@ -7,6 +7,7 @@ import axios from 'axios';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import InputLabel from '@/Components/InputLabel.vue';
+import { route } from 'ziggy-js';
 
 const form = reactive({
     // Data Sekolah
@@ -43,7 +44,7 @@ const successMessage = ref('');
 
 // Ambil data awal saat halaman dimuat
 onMounted(() => {
-    axios.get('/api/settings').then(res => {
+    axios.get(route('api.settings.get')).then(res => {
         const { school, user } = res.data.data;
         // Map data sekolah ke form
         Object.keys(school).forEach(key => {
@@ -61,7 +62,7 @@ onMounted(() => {
 const updateSettings = () => {
     isLoading.value = true;
     successMessage.value = '';
-    axios.post('/api/settings', form)
+    axios.post(route('api.settings.update'), form)
         .then(res => {
             successMessage.value = res.data.message;
             // Kosongkan field password setelah berhasil
@@ -206,10 +207,6 @@ const updateSettings = () => {
                                     <InputLabel value="Tahun Pelajaran" />
                                     <TextInput v-model="form.academic_year" placeholder="2023/2024"
                                         class="mt-1 block w-full" />
-                                </div>
-                                <div class="md:col-span-2">
-                                    <InputLabel value="Tempat Diterbitkan Rapor" />
-                                    <TextInput v-model="form.report_place" class="mt-1 block w-full" />
                                 </div>
                                 <div class="md:col-span-2">
                                     <InputLabel value="Tanggal Diterbitkan Rapor" />

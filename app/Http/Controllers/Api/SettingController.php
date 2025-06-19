@@ -55,7 +55,6 @@ class SettingController extends Controller
             'phase' => 'required|string|max:5',
             'semester' => 'required|in:1,2',
             'academic_year' => 'required|string|max:20',
-            'report_place' => 'required|string|max:100',
             'report_date' => 'required|date',
             // Data Guru
             'name' => 'required|string|max:255',
