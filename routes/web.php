@@ -44,7 +44,7 @@ Route::get('/dashboard', function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/students', function () {
         return Inertia::render('Students/Index');
-    })->name('students.index');
+    })->name('students.page.index');
 
     Route::get('/rapor/input-capaian', function () {
         return Inertia::render('Rapor/InputCompetence', [ // Ganti nama komponen

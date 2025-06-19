@@ -64,11 +64,11 @@ const sidebarOpen = ref(false);
                         </NavLink>
                         
                         <NavLink 
-                            :href="route('students.index')" 
-                            :active="route().current('students.index*')" 
+                            :href="route('students.page.index')" 
+                            :active="route().current('students.page.index*')" 
                             :is-sidebar-link="true"
                             class="group flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 hover:bg-red-50 hover:text-red-600"
-                            :class="route().current('students.index*') ? 'bg-red-500 text-white shadow-lg shadow-red-200' : 'text-gray-700 hover:bg-red-50'"
+                            :class="route().current('students.page.index*') ? 'bg-red-500 text-white shadow-lg shadow-red-200' : 'text-gray-700 hover:bg-red-50'"
                         >
                             <div class="w-5 h-5 mr-3 flex items-center justify-center">
                                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
