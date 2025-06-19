@@ -61,8 +61,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ]);
     })->name('p5.input');
 
-    Route::get('/pengaturan', function () { 
-        })->name('settings.page');
+    Route::get('/pengaturan', function () {
+        return Inertia::render('Settings/Index');
+    })->name('settings.page')->middleware(['auth', 'verified']);
 
     Route::prefix('api')->group(function () {
 
