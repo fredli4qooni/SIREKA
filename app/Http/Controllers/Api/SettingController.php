@@ -34,8 +34,8 @@ class SettingController extends Controller
 
     public function update(Request $request)
     {
-        // Validasi data baru
-        $request->validate([
+        // Validasi data (sudah benar, tapi kita perbaiki validasi email)
+        $validatedData = $request->validate([
             // Data Sekolah
             'school_name' => 'required|string|max:255',
             'npsn' => 'nullable|string|max:20',
@@ -59,25 +59,48 @@ class SettingController extends Controller
             // Data Guru
             'name' => 'required|string|max:255',
             'nip' => 'nullable|string|max:30',
-            'user_email' => 'required|email|max:255',
+            'user_email' => 'required|email|max:255|unique:users,email,' . Auth::id(), // Validasi email yang lebih baik
             'password' => ['nullable', 'confirmed', Password::defaults()],
         ]);
 
-        // Update data sekolah
-        $schoolSetting = SchoolSetting::first();
-        $schoolSetting->update($request->except(['name', 'nip', 'user_email', 'password', 'password_confirmation']));
+        // --- MULAI PERUBAHAN DI SINI ---
+
+        // Update data sekolah dengan cara yang aman menggunakan only()
+        $schoolSetting = SchoolSetting::firstOrFail();
+        $schoolSetting->update([
+            'school_name' => $validatedData['school_name'],
+            'npsn' => $validatedData['npsn'],
+            'nss' => $validatedData['nss'],
+            'address' => $validatedData['address'],
+            'postal_code' => $validatedData['postal_code'],
+            'village' => $validatedData['village'],
+            'sub_district' => $validatedData['sub_district'],
+            'district' => $validatedData['district'],
+            'province' => $validatedData['province'],
+            'email' => $validatedData['email'],
+            'headmaster_name' => $validatedData['headmaster_name'],
+            'headmaster_nip' => $validatedData['headmaster_nip'],
+            'class_level' => $validatedData['class_level'],
+            'phase' => $validatedData['phase'],
+            'semester' => $validatedData['semester'],
+            'academic_year' => $validatedData['academic_year'],
+            'report_date' => $validatedData['report_date'],
+        ]);
 
         // Update data guru
         $user = Auth::user();
-        $user->name = $request->input('name');
-        $user->nip = $request->input('nip');
-        $user->email = $request->input('user_email');
+        $user->name = $validatedData['name'];
+        $user->nip = $validatedData['nip'];
+        $user->email = $validatedData['user_email'];
 
-        if ($request->filled('password')) {
-            $user->password = Hash::make($request->input('password'));
+        if (!empty($validatedData['password'])) {
+            $user->password = Hash::make($validatedData['password']);
         }
         $user->save();
 
+        // --- BATAS PERUBAHAN ---
+
+        // Respons ini sudah benar untuk Axios, JANGAN ganti ke `return back()`
         return response()->json(['success' => true, 'message' => 'Pengaturan berhasil diperbarui.']);
     }
 }
